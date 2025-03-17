@@ -66,11 +66,11 @@ const images = [
 
 
 const gallery = document.querySelector('.gallery');
-
-images.forEach(image => createGalleryItem(image));
+gallery.insertAdjacentHTML("beforeend", createGalleryItem(images));
+//images.forEach(image => createGalleryItem(image));
 gallery.addEventListener("click", openModal);
 
-function createGalleryItem(image) {
+/*function createGalleryItem(image) {
 
     const galleryItem = document.createElement('li');
     galleryItem.classList.add('gallery-item');
@@ -89,15 +89,30 @@ function createGalleryItem(image) {
     galleryItem.appendChild(galleryLink);
 
     gallery.appendChild(galleryItem);
+}*/
+
+function createGalleryItem(arrImage) {
+    return arrImage.map((item) => `
+    <li class="gallery-item" data-descr="${item.description}">
+        <a class="gallery-link" href="${item.original}">
+            <img
+                class="gallery-image"
+                src="${item.preview}"
+                data-source="${item.original}"
+                alt="${item.description}"
+            />
+        </a>
+    </li>
+    `).join("");
 }
 
 function openModal(event) {
     event.preventDefault();
     if (event.target.tagName === 'IMG') {
     const largeImageSrc = event.target.dataset.source;
-    const lightbox = basicLightbox.create(`<div class="modal"> <img src="${largeImageSrc}"></div>`);
+        const lightbox = basicLightbox.create(`<div class="modal"> 
+        <img src="${largeImageSrc}"></div>`);
     lightbox.show();
     }
 }
-
 
